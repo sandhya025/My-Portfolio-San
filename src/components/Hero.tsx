@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { FiGithub, FiArrowDown, FiFileText } from 'react-icons/fi';
+import { FiGithub, FiArrowDown, FiFileText, FiDownload } from 'react-icons/fi';
+import { profile } from '../data/profile';
 import './Hero.css';
 
 const ROLES = [
   'AI Engineer',
-  'LLM & Agentic AI Engineer',
-  'ML / MLOps Engineer',
-  'AI Systems Builder',
   'Data Scientist',
+  'Agentic AI Specialist',
+  'MLOps Engineer',
+  'LLM Observability',
 ];
 
 const Hero = () => {
@@ -16,7 +17,6 @@ const Hero = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
 
-  // Typewriter effect
   useEffect(() => {
     const currentRole = ROLES[roleIndex];
     let timeout: ReturnType<typeof setTimeout>;
@@ -38,7 +38,6 @@ const Hero = () => {
 
   return (
     <section className="hero" id="home">
-      {/* Background particles */}
       <div className="hero__bg">
         {[...Array(6)].map((_, i) => (
           <div key={i} className={`hero__orb hero__orb--${i + 1}`} />
@@ -46,56 +45,60 @@ const Hero = () => {
       </div>
 
       <div className="container hero__content">
-        {/* Badge */}
         <div className="hero__badge">
           <span className="hero__badge-dot" />
-          Available for remote, contract, and freelance work
+          Open to remote, contract &amp; freelance work
         </div>
 
-        {/* Name */}
         <h1 className="hero__name">
-          Hi, I'm <span className="gradient-text">Sandhya Verma</span>
+          Hi, I'm <span className="gradient-text">{profile.firstName}</span>
         </h1>
 
-        {/* Typewriter */}
         <div className="hero__role">
           <span className="hero__role-text">{displayed}</span>
           <span className="hero__cursor">|</span>
         </div>
 
-        {/* Bio */}
         <p className="hero__bio">
-          Independent AI Engineer with 3+ years building production-grade AI systems
-          across fintech, autonomous driving, and industrial ML. I design agentic AI
-          pipelines, LLM observability layers, and end-to-end MLOps systems that turn
-          research prototypes into measurable business outcomes.
+          Independent AI engineer with 3+ years building production systems across
+          fintech, autonomous driving, and industrial ML — from solo prototypes to
+          platforms serving 60+ enterprise clients. Granted patent in deep-learning
+          ADAS perception. Specialized in agentic pipelines, LLM observability, and
+          end-to-end MLOps.
         </p>
 
-        {/* CTAs */}
         <div className="hero__actions">
           <a href="/projects" className="btn-primary" id="hero-view-projects">
             View Projects
           </a>
           <a
-            href="https://www.linkedin.com/in/vermasandhya"
+            href={profile.resume}
+            className="btn-outline"
+            id="hero-resume"
+            download
+          >
+            <FiDownload size={16} />
+            Resume
+          </a>
+          <a href="/blog" className="btn-outline" id="hero-read-blog">
+            <FiFileText size={16} />
+            Read Blog
+          </a>
+          <a
+            href={profile.github}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-outline"
-            id="hero-linkedin"
+            id="hero-github"
           >
             <FiGithub size={16} />
-            LinkedIn
-          </a>
-          <a href="mailto:sandhya025lko@gmail.com" className="btn-outline" id="hero-email">
-            <FiFileText size={16} />
-            Email Me
+            GitHub
           </a>
         </div>
 
-        {/* Stats */}
         <div className="hero__stats">
           {[
-            { value: '3+', label: 'Years Experience' },
+            { value: '3+', label: 'Years in AI/ML' },
             { value: '60+', label: 'Enterprise Clients' },
             { value: '1', label: 'Granted Patent' },
           ].map((stat) => (
@@ -106,7 +109,6 @@ const Hero = () => {
           ))}
         </div>
 
-        {/* Scroll indicator */}
         <a href="/#about" className="hero__scroll" aria-label="Scroll down">
           <FiArrowDown size={20} />
         </a>

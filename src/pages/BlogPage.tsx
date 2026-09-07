@@ -32,7 +32,7 @@ const BlogPage = () => {
               Tech <span className="gradient-text">Blog</span>
             </h1>
             <p className="section-subtitle">
-              System design, backend engineering, and lessons from building real software.
+              Agentic AI, LLM observability, MLOps, and lessons from production ML.
             </p>
           </div>
 

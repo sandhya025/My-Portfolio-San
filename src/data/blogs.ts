@@ -11,196 +11,101 @@ export interface BlogPost {
 
 export const blogs: BlogPost[] = [
   {
-    id: "caching-strategies",
-    title: "Caching Strategies in Distributed Systems",
+    id: "langgraph-agentic-rag",
+    title: "Why We Moved Client RAG from LangChain to LangGraph",
     excerpt:
-      "A deep dive into cache invalidation patterns, TTL strategies, and avoiding cache stampedes in high-scale systems.",
-    content: `## Introduction
+      "Multi-hop reasoning, self-reflection, and adaptive retrieval improved answer accuracy by 30% in a production knowledge system.",
+    content: `## The problem
 
-Caching is one of the most powerful tools in a distributed system's arsenal. Done right, it can reduce latency by orders of magnitude. Done wrong, it can introduce subtle bugs and stale data.
+A first-generation RAG stack is often a retrieve-then-generate chain. That works for FAQ-style questions. It breaks when the user needs several hops, when the first retrieval is incomplete, or when the model should admit uncertainty instead of hallucinating.
 
-## Common Caching Patterns
+On a client-facing knowledge system, that showed up as confident but incomplete answers and as support tickets that a human would have resolved by reading two related articles.
 
-### 1. Cache-Aside (Lazy Loading)
-The application checks the cache first. On a miss, it fetches from the database and populates the cache.
+## What LangGraph changed
 
-\`\`\`python
-def get_user(user_id):
-    user = cache.get(f"user:{user_id}")
-    if not user:
-        user = db.query(User, id=user_id)
-        cache.set(f"user:{user_id}", user, ttl=300)
-    return user
-\`\`\`
+We rebuilt the pipeline as a graph instead of a linear chain:
 
-**Pros:** Only cache what's needed.  
-**Cons:** Cold start problem. First request is always slow.
+1. **Route** — classify whether the query needs lookup, comparison, or a generated article.
+2. **Retrieve** — pull candidates, then decide whether to retrieve again with a rewritten query.
+3. **Reason** — multi-hop synthesis over the retrieved set.
+4. **Reflect** — a self-check pass that looks for missing citations or contradictions.
+5. **Answer** — only then emit the user-facing response.
 
-### 2. Write-Through
-Data is written to the cache and the database simultaneously.
+Adaptive retrieval meant simple questions stayed cheap. Hard questions paid for extra hops.
 
-**Pros:** Cache always up to date.  
-**Cons:** Write latency increases.
+## Results
 
-### 3. Write-Behind (Write-Back)
-Data is written to cache immediately, and asynchronously synced to the database.
+Response accuracy improved by about 30% versus the LangChain baseline. The same stack later powered automated FAQ and knowledge-article generation, with a self-serve UI so Product and Business teams could publish without waiting on engineering.
 
-**Pros:** Very fast writes.  
-**Cons:** Risk of data loss if cache goes down.
+## Takeaway
 
-## Cache Stampede Problem
-
-When a popular key expires, thousands of requests simultaneously hit the database before any of them can repopulate the cache. This is called a **cache stampede** (or thundering herd).
-
-### Fix: Probabilistic Early Expiration
-
-\`\`\`python
-import math, random
-
-def fetch_with_early_expiry(key, ttl, beta=1):
-    value, expiry = cache.get_with_expiry(key)
-    now = time.time()
-    if now - beta * math.log(random.random()) >= expiry:
-        # Recompute early
-        value = recompute(key)
-        cache.set(key, value, ttl=ttl)
-    return value
-\`\`\`
-
-## Conclusion
-
-Choose your caching strategy based on your read/write ratio and consistency requirements. Always monitor cache hit rates and set alerts when they drop.`,
-    category: "System Design",
-    tags: ["Redis", "Caching", "Distributed Systems", "Backend"],
-    date: "2026-07-20",
-    readTime: "8 min",
+If your RAG failures are "the model didn't look far enough" rather than "the embedding model is bad," an agentic graph with an explicit reflection node is usually a better investment than another prompt rewrite.`,
+    category: "Agentic AI",
+    tags: ["LangGraph", "RAG", "LLMs", "Production AI"],
+    date: "2026-03-12",
+    readTime: "7 min",
   },
   {
-    id: "api-design-best-practices",
-    title: "REST API Design Best Practices",
+    id: "llm-observability",
+    title: "LLM Observability: What to Measure After the Demo",
     excerpt:
-      "From naming conventions to versioning strategies — how to design APIs that developers love to use.",
-    content: `## Introduction
+      "Outputs, latency, tokens, and failure patterns — the signals that cut debugging time by 25% across 15 internal apps.",
+    content: `## Demos hide the production problem
 
-A well-designed API is a joy to consume. A poorly designed one causes hours of frustration. Here are the principles I follow when designing REST APIs.
+An LLM feature that looks great in a notebook can fail quietly in production: slow tails, exploding token bills, truncated JSON, or a sudden quality drop after a prompt change. Without shared telemetry, every team debugs in isolation.
 
-## 1. Use Nouns, Not Verbs
+## The SDK we shipped
 
-\`\`\`
-❌ GET /getUser
-✅ GET /users/{id}
+We built a small observability SDK that teams could drop into FastAPI services. It standardized four signal groups:
 
-❌ POST /createOrder
-✅ POST /orders
-\`\`\`
+- **Outputs** — sampled completions and structured parse success/failure
+- **Latency** — end-to-end and per-stage (retrieve, generate, post-process)
+- **Tokens** — prompt vs completion, by model and by application
+- **Failures** — timeouts, empty retrievals, safety refusals, schema errors
 
-## 2. HTTP Methods Semantics
+Metrics landed in Prometheus and dashboards in Grafana so on-call looked like any other service, not a science project.
 
-| Method | Use Case |
-|--------|----------|
-| GET | Read resource |
-| POST | Create resource |
-| PUT | Replace resource |
-| PATCH | Partial update |
-| DELETE | Remove resource |
+## Why it mattered
 
-## 3. Versioning
+The SDK was adopted across 15 internal applications. Shared dashboards made regressions obvious. Debugging time dropped by about 25% because people stopped reconstructing traces from application logs.
 
-Always version your API. Use URL versioning for simplicity:
+## What I would instrument first
 
-\`\`\`
-/api/v1/users
-/api/v2/users
-\`\`\`
-
-## 4. Consistent Error Responses
-
-\`\`\`json
-{
-  "error": {
-    "code": "USER_NOT_FOUND",
-    "message": "No user found with id 123",
-    "status": 404
-  }
-}
-\`\`\`
-
-## 5. Pagination
-
-Never return unbounded lists:
-
-\`\`\`
-GET /users?page=1&limit=20
-\`\`\`
-
-## Conclusion
-
-Good API design is about empathy — think from your consumer's perspective. Document everything, version from day one, and be consistent.`,
-    category: "Backend",
-    tags: ["API Design", "REST", "Backend", "Best Practices"],
-    date: "2026-06-15",
+If you only add three things: request id through the whole graph, token cost per route, and a labeled failure taxonomy. Quality evals (RAGAS, LLM-as-judge) come next — they are useless if you cannot join them to a specific production trace.`,
+    category: "MLOps",
+    tags: ["LLM Observability", "Prometheus", "Grafana", "FastAPI"],
+    date: "2026-01-20",
     readTime: "6 min",
   },
   {
-    id: "python-async-patterns",
-    title: "Async Patterns in Python — asyncio Deep Dive",
+    id: "tensorrt-edge-adas",
+    title: "Getting ADAS Perception Under 20ms on Jetson Xavier",
     excerpt:
-      "How to write efficient async Python with asyncio — event loops, coroutines, tasks, and common pitfalls.",
-    content: `## Introduction
+      "TensorRT FP16 optimization delivered a 6× speedup on real-time video — what actually moved the latency needle.",
+    content: `## Constraint
 
-Python's \`asyncio\` library enables concurrent I/O-bound code without threads. But it has quirks that trip up developers.
+Level 3 ADAS perception has to run on vehicle hardware, not a datacenter GPU. On NVIDIA Jetson Xavier, an unoptimized PyTorch graph was too slow for a live camera feed.
 
-## Coroutines vs Tasks
+## What we did
 
-A coroutine is just a function defined with \`async def\`. It doesn't run until you await it or schedule it as a Task.
+We converted the trained model through TensorRT with FP16 precision, fused layers where the builder allowed it, and measured on the real video pipeline rather than a synthetic benchmark.
 
-\`\`\`python
-import asyncio
+That combination produced:
 
-async def fetch_data(url):
-    await asyncio.sleep(1)  # simulates I/O
-    return {"url": url, "data": "..."}
+- roughly **6× speedup** versus the original graph
+- **~20ms** inference latency on the live feed
+- enough headroom to keep planning and control in the same cycle budget
 
-# Run one coroutine
-asyncio.run(fetch_data("https://api.example.com"))
-\`\`\`
+## Lessons
 
-## Running Concurrently with gather
+FP16 is not free accuracy. We validated against the FP32 baseline on the same sequences before locking the engine. The other large win was eliminating host-device copies in the pre/post-process path — TensorRT alone does not fix a chatty camera pipeline.
 
-\`\`\`python
-async def main():
-    results = await asyncio.gather(
-        fetch_data("https://api1.com"),
-        fetch_data("https://api2.com"),
-        fetch_data("https://api3.com"),
-    )
-    return results
-\`\`\`
+## Why it still matters
 
-All three requests run concurrently — total time ≈ 1s, not 3s.
-
-## Common Pitfall: Blocking the Event Loop
-
-\`\`\`python
-# ❌ This blocks the entire event loop
-async def bad():
-    time.sleep(2)  # use asyncio.sleep instead!
-
-# ✅ Correct
-async def good():
-    await asyncio.sleep(2)
-\`\`\`
-
-## When NOT to use asyncio
-
-asyncio shines for **I/O-bound** tasks (network calls, file reads). For **CPU-bound** tasks (data processing, ML), use \`multiprocessing\` instead.
-
-## Conclusion
-
-asyncio is powerful but requires discipline. Keep your coroutines non-blocking, use \`gather\` for concurrency, and reach for \`run_in_executor\` when you must call blocking code.`,
-    category: "Backend",
-    tags: ["Python", "asyncio", "Concurrency", "Backend"],
-    date: "2026-05-10",
-    readTime: "10 min",
+Agentic and LLM work often lives in the cloud. Perception still has to live at the edge. The same discipline — measure the real pipeline, then optimize the compiler path — transfers to any on-device model you ship.`,
+    category: "Autonomous Driving",
+    tags: ["TensorRT", "Jetson", "ADAS", "Edge ML"],
+    date: "2025-08-04",
+    readTime: "5 min",
   },
 ];

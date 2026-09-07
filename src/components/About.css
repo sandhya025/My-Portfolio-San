@@ -1,0 +1,150 @@
+.about__patent {
+  display: flex;
+  gap: 20px;
+  padding: 24px 28px;
+  margin-top: 48px;
+  align-items: flex-start;
+}
+
+.about__patent-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(124, 58, 237, 0.15);
+  color: var(--color-primary-light);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+}
+
+.about__patent-label {
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.about__patent-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.about__patent-meta {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.about__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.about__role {
+  display: flex;
+  gap: 20px;
+  padding: 28px;
+  align-items: flex-start;
+}
+
+.about__role:hover {
+  transform: none;
+}
+
+.about__role-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--color-accent-light);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.about__role-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.about__role-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.about__role-dates {
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.about__role-company {
+  color: var(--color-primary-light);
+  font-weight: 500;
+  margin: 6px 0 14px;
+}
+
+.about__role-points {
+  padding-left: 18px;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.about__edu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.about__edu-card {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.about__edu-card svg {
+  color: var(--color-accent-light);
+  margin-bottom: 4px;
+}
+
+.about__edu-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.about__edu-card p {
+  color: var(--color-primary-light);
+}
+
+.about__edu-card span {
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .about__edu {
+    grid-template-columns: 1fr;
+  }
+
+  .about__role,
+  .about__patent {
+    flex-direction: column;
+  }
+}

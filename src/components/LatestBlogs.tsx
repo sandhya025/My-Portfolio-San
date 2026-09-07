@@ -18,7 +18,7 @@ const LatestBlogs = () => {
               Latest <span className="gradient-text">Blog Posts</span>
             </h2>
             <p className="section-subtitle">
-              I write about system design, backend engineering, and things I learn along the way.
+              Notes on agentic RAG, LLM observability, and shipping ML at the edge.
             </p>
           </div>
           <Link to="/blog" className="btn-outline latest-blogs__view-all" id="latest-blogs-view-all">

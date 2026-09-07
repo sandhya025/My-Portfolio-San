@@ -31,8 +31,7 @@ const ProjectsPage = () => {
               All <span className="gradient-text">Projects</span>
             </h1>
             <p className="section-subtitle">
-              A complete list of things I've built. Add yours to{' '}
-              <code>src/data/projects.js</code>.
+              Agentic AI, ADAS perception, MLOps, and industrial ML systems from my resume.
             </p>
           </div>
 

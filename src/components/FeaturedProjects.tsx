@@ -16,7 +16,7 @@ const FeaturedProjects = () => {
               Featured <span className="gradient-text">Projects</span>
             </h2>
             <p className="section-subtitle">
-              A selection of projects that showcase my engineering thinking and technical depth.
+              Production work in agentic AI, LLM observability, and applied ML.
             </p>
           </div>
           <Link to="/projects" className="btn-outline featured-projects__view-all" id="featured-view-all">

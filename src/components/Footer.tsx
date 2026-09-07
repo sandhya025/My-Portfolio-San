@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { FiGithub, FiLinkedin, FiMail, FiArrowUp, FiPhone, FiCopy, FiCheck } from 'react-icons/fi';
+import { profile } from '../data/profile';
 import './Footer.css';
 
 const CONTACT = {
-  email: 'sandhya025lko@gmail.com',
-  phone: '+91-8840813974',
-  linkedin: 'https://www.linkedin.com/in/vermasandhya',
+  email: profile.email,
+  phone: profile.phone,
 };
 
 const Footer = () => {
@@ -25,9 +25,9 @@ const Footer = () => {
       <div className="container footer__inner">
         {/* Left */}
         <div className="footer__left">
-          <span className="footer__logo"><span className="footer__logo-bracket">&lt;</span>Sandhya Verma<span className="footer__logo-bracket"> /&gt;</span></span>
+          <span className="footer__logo"><span className="footer__logo-bracket">&lt;</span>{profile.firstName}<span className="footer__logo-bracket"> /&gt;</span></span>
           <p className="footer__tagline">
-            Independent AI Engineer building agentic AI, LLM systems, and MLOps pipelines.
+            Production AI — agentic pipelines, LLM observability, and MLOps.
           </p>
         </div>
 
@@ -41,11 +41,11 @@ const Footer = () => {
 
         {/* Socials */}
         <div className="footer__socials">
-          <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="footer__social-icon" aria-label="LinkedIn">
-            <FiLinkedin size={20} />
+          <a href={profile.github} target="_blank" rel="noopener noreferrer" className="footer__social-icon" aria-label="GitHub">
+            <FiGithub size={20} />
           </a>
-          <a href={`mailto:${CONTACT.email}`} className="footer__social-icon" aria-label="Email">
-            <FiMail size={20} />
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="footer__social-icon" aria-label="LinkedIn">
+            <FiLinkedin size={20} />
           </a>
 
           {/* Email with tooltip + copy */}
@@ -67,7 +67,7 @@ const Footer = () => {
 
           {/* Phone with tooltip + copy */}
           <div className="footer__tooltip-wrap">
-            <a href={`tel:+918840813974`} className="footer__social-icon" aria-label="Phone">
+            <a href={profile.phoneHref} className="footer__social-icon" aria-label="Phone">
               <FiPhone size={20} />
             </a>
             <div className="footer__tooltip">
@@ -91,7 +91,7 @@ const Footer = () => {
 
       <div className="footer__bottom">
         <div className="container">
-          <p>© {new Date().getFullYear()} Sandhya Verma. Built with React &amp; ❤️</p>
+          <p>© {new Date().getFullYear()} {profile.firstName} {profile.lastName}. Built with React &amp; ❤️</p>
         </div>
       </div>
     </footer>

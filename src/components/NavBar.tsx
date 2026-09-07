@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiGithub, FiLinkedin, FiMenu, FiX, FiMail, FiPhone, FiCopy, FiCheck } from 'react-icons/fi';
+import { profile } from '../data/profile';
 import './NavBar.css';
 
 const CONTACT = {
-  email: 'sandhya025lko@gmail.com',
-  phone: '+91-8840813974',
-  linkedin: 'https://www.linkedin.com/in/vermasandhya',
+  email: profile.email,
+  phone: profile.phone,
 };
 
 const NavBar = () => {
@@ -56,7 +56,7 @@ const NavBar = () => {
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} id="navbar">
       <div className="navbar__inner container">
         {/* Logo */}
-        <Link to="/" className="navbar__logo"><span className="navbar__logo-bracket">&lt;</span><span className="navbar__logo-name">Sandhya</span><span className="navbar__logo-bracket"> /&gt;</span></Link>
+        <Link to="/" className="navbar__logo"><span className="navbar__logo-bracket">&lt;</span><span className="navbar__logo-name">{profile.firstName}</span><span className="navbar__logo-bracket"> /&gt;</span></Link>
 
         {/* Desktop links */}
         <ul className="navbar__links">
@@ -71,11 +71,11 @@ const NavBar = () => {
 
         {/* Social + CTA */}
         <div className="navbar__actions">
-          <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="navbar__icon" aria-label="LinkedIn">
-            <FiLinkedin size={20} />
+          <a href={profile.github} target="_blank" rel="noopener noreferrer" className="navbar__icon" aria-label="GitHub">
+            <FiGithub size={20} />
           </a>
-          <a href={`mailto:${CONTACT.email}`} className="navbar__icon" aria-label="Email">
-            <FiMail size={20} />
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="navbar__icon" aria-label="LinkedIn">
+            <FiLinkedin size={20} />
           </a>
 
           {/* Hire Me dropdown */}
@@ -147,11 +147,11 @@ const NavBar = () => {
             </a>
           ))}
           <div className="navbar__mobile-socials">
-            <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="navbar__icon">
-              <FiLinkedin size={20} />
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="navbar__icon">
+              <FiGithub size={20} />
             </a>
-            <a href={`mailto:${CONTACT.email}`} className="navbar__icon" aria-label="Email">
-              <FiMail size={20} />
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="navbar__icon">
+              <FiLinkedin size={20} />
             </a>
           </div>
         </div>

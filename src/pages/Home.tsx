@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import About from '../components/About';
 import Skills from '../components/Skills';
 import FeaturedProjects from '../components/FeaturedProjects';
 import LatestBlogs from '../components/LatestBlogs';
@@ -9,6 +10,8 @@ const Home = () => {
   return (
     <>
       <Hero />
+      <div className="section-divider" />
+      <About />
       <div className="section-divider" />
       <Skills />
       <div className="section-divider" />

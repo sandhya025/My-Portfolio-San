@@ -3,28 +3,51 @@ import './Skills.css';
 
 const SKILL_GROUPS = [
   {
-    icon: <FiCode size={22} />,
+    icon: <FiCpu size={22} />,
     label: 'Agentic AI & LLMs',
     color: 'violet',
-    skills: ['LangGraph', 'CrewAI', 'Claude API', 'LangChain', 'RAG', 'LLM Observability'],
-  },
-  {
-    icon: <FiServer size={22} />,
-    label: 'ML & Deep Learning',
-    color: 'cyan',
-    skills: ['LSTM', 'TensorRT', 'Multimodal Fusion', 'Anomaly Detection', 'Sentiment Analysis', 'Time-Series'],
-  },
-  {
-    icon: <FiCpu size={22} />,
-    label: 'MLOps & Deployment',
-    color: 'violet',
-    skills: ['CI/CD', 'Jenkins', 'GitHub Actions', 'Docker', 'FastAPI', 'NVIDIA Jetson Xavier'],
+    skills: [
+      'LangGraph',
+      'CrewAI',
+      'LangChain',
+      'RAG',
+      'Claude API',
+      'Prompt Engineering',
+      'RAGAS',
+      'LLM Observability',
+    ],
   },
   {
     icon: <FiTrendingUp size={22} />,
-    label: 'Data & Observability',
+    label: 'ML & Deep Learning',
     color: 'cyan',
-    skills: ['Prometheus', 'Grafana', 'RAGAS', 'SQL', 'Model Monitoring', 'Dashboard Development'],
+    skills: [
+      'LSTM',
+      'TensorRT',
+      'Anomaly Detection',
+      'Sentiment Analysis',
+      'Time-Series',
+      'Multimodal Fusion',
+    ],
+  },
+  {
+    icon: <FiServer size={22} />,
+    label: 'MLOps & Deployment',
+    color: 'violet',
+    skills: [
+      'Jenkins',
+      'GitHub Actions',
+      'Docker',
+      'FastAPI',
+      'NVIDIA Jetson',
+      'Model Monitoring',
+    ],
+  },
+  {
+    icon: <FiCode size={22} />,
+    label: 'Data & Languages',
+    color: 'cyan',
+    skills: ['Python', 'SQL', 'Prometheus', 'Grafana', 'SDK Development', 'Dashboards'],
   },
 ];
 
@@ -37,7 +60,7 @@ const Skills = () => {
           Skills &amp; <span className="gradient-text">Tech Stack</span>
         </h2>
         <p className="section-subtitle">
-          A curated set of technologies I use to build reliable, scalable software.
+          Agentic AI, MLOps, and applied ML across fintech, ADAS, and industrial systems.
         </p>
 
         <div className="skills__grid">
